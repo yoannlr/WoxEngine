@@ -15,10 +15,15 @@ int main(int argc, char* argv[]) {
 	}
 
 	win = new WoxEngine::Window(640, 360, (char*)"test");
-	win->setDrawFunc(&winRender);
-	win->redraw();
 
-	SDL_Delay(3000);
+	while(!win->shouldQuit()) {
+		win->processEvents();
+		win->setDrawFunc(&winRender);
+		if(win->isKeyDown('a')) std::cout << "a" << std::endl;
+		win->redraw();
+		SDL_Delay(10);
+	}
+
 	SDL_Quit();
 
 	return EXIT_SUCCESS;

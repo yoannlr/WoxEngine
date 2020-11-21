@@ -32,6 +32,37 @@ void WoxEngine::Window::setDrawFunc(void (*dfPtr)()) {
 	drawFuncPtr = dfPtr;
 }
 
+void WoxEngine::Window::processEvents() {
+	while(SDL_PollEvent(&event)) {
+		switch(event.type) {
+			case SDL_QUIT:
+				quitRequested = true;
+				break;
+			case SDL_KEYDOWN:
+				kbe = &event.key;
+				keyStates[kbe->keysym.sym] = true;
+				// envoyer keyPressed(kbe->keysym.sym) à currentState
+				break;
+			case SDL_KEYUP:
+				kbe = &event.key;
+				keyStates[kbe->keysym.sym] = false;
+				// envoyer keyReleased(kbe->keysym.sym) à currentState
+				break;
+		}
+	}
+}
+
+bool WoxEngine::Window::shouldQuit() {
+	return quitRequested;
+}
+
+
+// keyboard related functions
+
+bool WoxEngine::Window::isKeyDown(char key) {
+	return keyStates[int(key)];
+}
+
 
 // drawing functions
 

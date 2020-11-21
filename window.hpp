@@ -1,6 +1,8 @@
 #include <SDL2/SDL.h>
 #include <map>
 
+#include "state.hpp"
+
 namespace WoxEngine {
 	class Window;
 }
@@ -10,7 +12,7 @@ class WoxEngine::Window {
 	char* title;
 	SDL_Window* win;
 	SDL_Renderer* rend;
-	void (*drawFuncPtr)();
+	WoxEngine::State* target;
 	bool quitRequested = false;
 	SDL_Event event;
 	SDL_KeyboardEvent* kbe;
@@ -20,12 +22,15 @@ class WoxEngine::Window {
 		Window(int, int, char*);
 		~Window();
 		void redraw();
-		void setDrawFunc(void (*)());
+		void setTarget(WoxEngine::State*);
 		void processEvents();
 		bool shouldQuit();
 
 		// keyboard related functions
 		bool isKeyDown(char);
+
+		// updating function
+		void update(int);
 
 		// drawing functions
 		void setColor(Uint8, Uint8, Uint8);

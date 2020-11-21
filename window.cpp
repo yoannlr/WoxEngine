@@ -24,12 +24,12 @@ WoxEngine::Window::~Window() {
 void WoxEngine::Window::redraw() {
 	SDL_SetRenderDrawColor(rend, 0, 0, 0, 255);
 	SDL_RenderClear(rend);
-	(*drawFuncPtr)();
+	target->draw(this);
 	SDL_RenderPresent(rend);
 }
 
-void WoxEngine::Window::setDrawFunc(void (*dfPtr)()) {
-	drawFuncPtr = dfPtr;
+void WoxEngine::Window::setTarget(WoxEngine::State* s) {
+	target = s;
 }
 
 void WoxEngine::Window::processEvents() {
@@ -61,6 +61,13 @@ bool WoxEngine::Window::shouldQuit() {
 
 bool WoxEngine::Window::isKeyDown(char key) {
 	return keyStates[int(key)];
+}
+
+
+// updating function
+
+void WoxEngine::Window::update(int millis) {
+	target->update(this, float(millis / 1000));
 }
 
 

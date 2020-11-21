@@ -1,12 +1,17 @@
 #include <iostream>
 #include "window.hpp"
 
-WoxEngine::Window* win;
-
-void winRender() {
-	win->setColor(255, 0, 0);
-	win->fillRectangle(100, 50, 100, 150);
-}
+class StateExample : public WoxEngine::State {
+	void update(WoxEngine::Window* win, float dt) {
+		if(win->isKeyDown('a')) std::cout << "a" << std::endl;
+	}
+	void draw(WoxEngine::Window* win) {
+		win->setColor(255, 0, 0);
+		win->fillRectangle(100, 50, 100, 150);
+	}
+	void keyPressed(char c) {}
+	void keyReleased(char c) {}
+};
 
 int main(int argc, char* argv[]) {
 	if(SDL_Init(SDL_INIT_VIDEO)) {
@@ -14,13 +19,14 @@ int main(int argc, char* argv[]) {
 		exit(EXIT_FAILURE);
 	}
 
-	win = new WoxEngine::Window(640, 360, (char*)"test");
+	WoxEngine::Window win(640, 360, (char*)"test");
+	StateExample* s = new StateExample();
+	win.setTarget(s);
 
-	while(!win->shouldQuit()) {
-		win->processEvents();
-		win->setDrawFunc(&winRender);
-		if(win->isKeyDown('a')) std::cout << "a" << std::endl;
-		win->redraw();
+	while(!win.shouldQuit()) {
+		win.processEvents();
+		win.update(10);
+		win.redraw();
 		SDL_Delay(10);
 	}
 

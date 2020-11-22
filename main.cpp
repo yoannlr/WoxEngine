@@ -3,13 +3,16 @@
 
 class StateExample : public WoxEngine::State {
 	void update(WoxEngine::Window* win, float dt) {
+		// std::cout << "update with dt=" << dt << std::endl;
 		if(win->isKeyDown('a')) std::cout << "a" << std::endl;
 	}
 	void draw(WoxEngine::Window* win) {
 		win->setColor(255, 0, 0);
 		win->fillRectangle(100, 50, 100, 150);
 	}
-	void keyPressed(char c) {}
+	void keyPressed(char c) {
+		// std::cout << "keyPressed=" << c << std::endl;
+	}
 	void keyReleased(char c) {}
 };
 
@@ -19,16 +22,10 @@ int main(int argc, char* argv[]) {
 		exit(EXIT_FAILURE);
 	}
 
-	WoxEngine::Window win(640, 360, (char*)"test");
+	WoxEngine::Window win(640, 360, 60, (char*)"test");
 	StateExample* s = new StateExample();
 	win.setTarget(s);
-
-	while(!win.shouldQuit()) {
-		win.processEvents();
-		win.update(10);
-		win.redraw();
-		SDL_Delay(10);
-	}
+	win.runGameLoop();
 
 	SDL_Quit();
 

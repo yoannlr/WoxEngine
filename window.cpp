@@ -1,7 +1,8 @@
 #include "window.hpp"
 
-WoxEngine::Window::Window(int w, int h, char* t) : width(w), height(h) {
+WoxEngine::Window::Window(int w, int h, int fps, char* t) : width(w), height(h) {
 	title = t;
+	maxMillis = int(1000 / fps);
 
 	win = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_SHOWN);
 	if(!win) {
@@ -41,12 +42,12 @@ void WoxEngine::Window::processEvents() {
 			case SDL_KEYDOWN:
 				kbe = &event.key;
 				keyStates[kbe->keysym.sym] = true;
-				// envoyer keyPressed(kbe->keysym.sym) à currentState
+				target->keyPressed(char(kbe->keysym.sym));
 				break;
 			case SDL_KEYUP:
 				kbe = &event.key;
 				keyStates[kbe->keysym.sym] = false;
-				// envoyer keyReleased(kbe->keysym.sym) à currentState
+				target->keyReleased(char(kbe->keysym.sym));
 				break;
 		}
 	}
@@ -67,7 +68,24 @@ bool WoxEngine::Window::isKeyDown(char key) {
 // updating function
 
 void WoxEngine::Window::update(int millis) {
-	target->update(this, float(millis / 1000));
+	target->update(this, float(millis / 1000.0));
+}
+
+
+// game loop
+
+void WoxEngine::Window::runGameLoop() {
+	// peut être optimisée, c'est sûr.
+	int startTime = 0, remainingTime = 0, lastTick = SDL_GetTicks();
+	while(!shouldQuit()) {
+		startTime = SDL_GetTicks();
+		processEvents();
+		update(SDL_GetTicks() - lastTick);
+		lastTick = SDL_GetTicks();
+		redraw();
+		remainingTime = maxMillis - startTime + SDL_GetTicks();
+		if(remainingTime > 0) SDL_Delay(remainingTime);
+	}
 }
 
 

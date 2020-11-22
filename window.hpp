@@ -17,9 +17,10 @@ class WoxEngine::Window {
 	SDL_Event event;
 	SDL_KeyboardEvent* kbe;
 	std::map<int, bool> keyStates;
+	int maxMillis;
 
 	public:
-		Window(int, int, char*);
+		Window(int, int, int, char*);
 		~Window();
 		void redraw();
 		void setTarget(WoxEngine::State*);
@@ -31,6 +32,9 @@ class WoxEngine::Window {
 
 		// updating function
 		void update(int);
+
+		// game loop
+		void runGameLoop();
 
 		// drawing functions
 		void setColor(Uint8, Uint8, Uint8);

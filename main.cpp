@@ -2,18 +2,25 @@
 #include "window.hpp"
 
 class StateExample : public WoxEngine::State {
-	void update(WoxEngine::Window* win, float dt) {
-		// std::cout << "update with dt=" << dt << std::endl;
-		if(win->isKeyDown('a')) std::cout << "a" << std::endl;
-	}
-	void draw(WoxEngine::Window* win) {
-		win->setColor(255, 0, 0);
-		win->fillRectangle(100, 50, 100, 150);
-	}
-	void keyPressed(char c) {
-		// std::cout << "keyPressed=" << c << std::endl;
-	}
-	void keyReleased(char c) {}
+	public:
+		StateExample(WoxEngine::Window* _win) : WoxEngine::State(_win) {};
+		void update(float dt) {
+			// std::cout << "update with dt=" << dt << std::endl;
+			if(win->input.isKeyDown('a')) std::cout << "a" << std::endl;
+		}
+		void draw() {
+			win->setColor(255, 0, 0);
+			win->fillRectangle(100, 50, 100, 150);
+		}
+		void keyPressed(char c) {
+			std::cout << "keyPressed=" << c << std::endl;
+		}
+		void keyReleased(char c) {}
+		void mouseClicked(Uint8 b) {
+			if(b == WoxEngine::MOUSELEFT) std::cout << "leftClick" << std::endl;
+			std::cout << win->input.getMouseX() << ", " << win->input.getMouseY() << std::endl;
+		}
+		void mouseReleased(Uint8 b) {}
 };
 
 int main(int argc, char* argv[]) {
@@ -23,7 +30,7 @@ int main(int argc, char* argv[]) {
 	}
 
 	WoxEngine::Window win(640, 360, 60, (char*)"test");
-	StateExample* s = new StateExample();
+	StateExample* s = new StateExample(&win);
 	win.setTarget(s);
 	win.runGameLoop();
 

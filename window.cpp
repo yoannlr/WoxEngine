@@ -25,12 +25,16 @@ WoxEngine::Window::~Window() {
 void WoxEngine::Window::redraw() {
 	SDL_SetRenderDrawColor(rend, 0, 0, 0, 255);
 	SDL_RenderClear(rend);
-	target->draw(this);
+	target->draw();
 	SDL_RenderPresent(rend);
 }
 
 void WoxEngine::Window::setTarget(WoxEngine::State* s) {
 	target = s;
+}
+
+WoxEngine::State* WoxEngine::Window::getTarget() {
+	return target;
 }
 
 void WoxEngine::Window::processEvents() {
@@ -39,15 +43,8 @@ void WoxEngine::Window::processEvents() {
 			case SDL_QUIT:
 				quitRequested = true;
 				break;
-			case SDL_KEYDOWN:
-				kbe = &event.key;
-				keyStates[kbe->keysym.sym] = true;
-				target->keyPressed(char(kbe->keysym.sym));
-				break;
-			case SDL_KEYUP:
-				kbe = &event.key;
-				keyStates[kbe->keysym.sym] = false;
-				target->keyReleased(char(kbe->keysym.sym));
+			default:
+				input.handleEvent(target, &event);
 				break;
 		}
 	}
@@ -58,17 +55,10 @@ bool WoxEngine::Window::shouldQuit() {
 }
 
 
-// keyboard related functions
-
-bool WoxEngine::Window::isKeyDown(char key) {
-	return keyStates[int(key)];
-}
-
-
 // updating function
 
 void WoxEngine::Window::update(int millis) {
-	target->update(this, float(millis / 1000.0));
+	target->update(float(millis / 1000.0));
 }
 
 

@@ -1,7 +1,10 @@
 #include <SDL2/SDL.h>
-#include <map>
 
+#ifndef incl_state
 #include "state.hpp"
+#define incl_state 1
+#endif
+#include "input.hpp"
 
 namespace WoxEngine {
 	class Window;
@@ -12,23 +15,23 @@ class WoxEngine::Window {
 	char* title;
 	SDL_Window* win;
 	SDL_Renderer* rend;
-	WoxEngine::State* target;
 	bool quitRequested = false;
 	SDL_Event event;
-	SDL_KeyboardEvent* kbe;
-	std::map<int, bool> keyStates;
 	int maxMillis;
 
+	WoxEngine::State* target;
+
 	public:
+		WoxEngine::Input input;
+
 		Window(int, int, int, char*);
 		~Window();
 		void redraw();
-		void setTarget(WoxEngine::State*);
 		void processEvents();
 		bool shouldQuit();
 
-		// keyboard related functions
-		bool isKeyDown(char);
+		void setTarget(WoxEngine::State*);
+		WoxEngine::State* getTarget();
 
 		// updating function
 		void update(int);

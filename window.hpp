@@ -5,6 +5,7 @@
 #define incl_state 1
 #endif
 #include "input.hpp"
+#include "image.hpp"
 
 namespace WoxEngine {
 	class Window;
@@ -43,4 +44,7 @@ class WoxEngine::Window {
 		void setColor(Uint8, Uint8, Uint8);
 		void setColor(Uint8, Uint8, Uint8, Uint8);
 		void fillRectangle(int, int, int, int);
+		WoxEngine::Image* loadImage(const char*);
+		void drawImage(WoxEngine::Image*, int, int);
+		// TODO - drawImage with more params 
 };

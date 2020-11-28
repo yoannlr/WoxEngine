@@ -93,3 +93,23 @@ void WoxEngine::Window::fillRectangle(int x, int y, int w, int h) {
 	SDL_Rect rect = {x, y, w, h};
 	SDL_RenderFillRect(rend, &rect);
 }
+
+WoxEngine::Image* WoxEngine::Window::loadImage(const char* path) {
+	SDL_Surface* tmp = SDL_LoadBMP(path);
+	if(tmp == NULL) {
+		fprintf(stderr, "SDL_LoadBMP failed: %s\n", SDL_GetError());
+		exit(EXIT_FAILURE);
+	}
+	SDL_Texture* tex = SDL_CreateTextureFromSurface(rend, tmp);
+	if(tex == NULL) {
+		fprintf(stderr, "SDL_CreateTextureFromSurface failed: %s\n", SDL_GetError());
+		exit(EXIT_FAILURE);
+	}
+	SDL_FreeSurface(tmp);
+	return new WoxEngine::Image(tex);
+}
+
+void WoxEngine::Window::drawImage(WoxEngine::Image* img, int x, int y) {
+	SDL_Rect r = {x, y, img->width, img->height};
+	SDL_RenderCopy(rend, img->tex, NULL, &r);
+}

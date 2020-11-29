@@ -15,9 +15,13 @@ class StateExample : public WoxEngine::State {
 			win->setColor(255, 0, 0);
 			win->fillRectangle(100, 50, 100, 150);
 			win->drawImage(test, 200, 100);
+			win->drawImage(test, 400, 200, 45.0, 24, 24, 24, 24);
 		}
 		void keyPressed(char c) {
 			std::cout << "keyPressed=" << c << std::endl;
+			if(c == 'p') win->resize(2.0);
+			else if(c == 'm') win->resize(1.0);
+			else if(c == 's') win->screenshot();
 		}
 		void keyReleased(char c) {}
 		void mouseClicked(Uint8 b) {

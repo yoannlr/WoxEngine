@@ -54,6 +54,20 @@ bool WoxEngine::Window::shouldQuit() {
 	return quitRequested;
 }
 
+void WoxEngine::Window::resize(float factor) {
+	SDL_SetWindowSize(win, int(width * factor), int(height * factor));
+	SDL_RenderSetScale(rend, factor, factor);
+}
+
+void WoxEngine::Window::screenshot() {
+	int w, h;
+	SDL_GetWindowSize(win, &w, &h);
+	SDL_Surface *sshot = SDL_CreateRGBSurface(0, w, h, 32, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
+	SDL_RenderReadPixels(rend, NULL, SDL_PIXELFORMAT_ARGB8888, sshot->pixels, sshot->pitch);
+	SDL_SaveBMP(sshot, "screenshot.bmp");
+	SDL_FreeSurface(sshot);
+}
+
 
 // updating function
 
@@ -112,4 +126,21 @@ WoxEngine::Image* WoxEngine::Window::loadImage(const char* path) {
 void WoxEngine::Window::drawImage(WoxEngine::Image* img, int x, int y) {
 	SDL_Rect r = {x, y, img->width, img->height};
 	SDL_RenderCopy(rend, img->tex, NULL, &r);
+}
+
+void WoxEngine::Window::drawImage(WoxEngine::Image* img, int x, int y, int cropX, int cropY, int cropW, int cropH) {
+	SDL_Rect src = {cropX, cropY, cropW, cropH};
+	SDL_Rect dst = {x, y, cropW, cropH};
+	SDL_RenderCopy(rend, img->tex, &src, &dst);
+}
+
+void WoxEngine::Window::drawImage(WoxEngine::Image* img, int x, int y, double rot) {
+	SDL_Rect r = {x, y, img->width, img->height};
+	SDL_RenderCopyEx(rend, img->tex, NULL, &r, rot, NULL, SDL_FLIP_NONE);
+}
+
+void WoxEngine::Window::drawImage(WoxEngine::Image* img, int x, int y, double rot, int cropX, int cropY, int cropW, int cropH) {
+	SDL_Rect src = {cropX, cropY, cropW, cropH};
+	SDL_Rect dst = {x, y, cropW, cropH};
+	SDL_RenderCopyEx(rend, img->tex, &src, &dst, rot, NULL, SDL_FLIP_NONE);
 }

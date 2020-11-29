@@ -30,6 +30,8 @@ class WoxEngine::Window {
 		void redraw();
 		void processEvents();
 		bool shouldQuit();
+		void resize(float);
+		void screenshot();
 
 		void setTarget(WoxEngine::State*);
 		WoxEngine::State* getTarget();
@@ -44,7 +46,11 @@ class WoxEngine::Window {
 		void setColor(Uint8, Uint8, Uint8);
 		void setColor(Uint8, Uint8, Uint8, Uint8);
 		void fillRectangle(int, int, int, int);
+
+		// images
 		WoxEngine::Image* loadImage(const char*);
 		void drawImage(WoxEngine::Image*, int, int);
-		// TODO - drawImage with more params 
+		void drawImage(WoxEngine::Image*, int, int, int, int, int, int);
+		void drawImage(WoxEngine::Image*, int, int, double);
+		void drawImage(WoxEngine::Image*, int, int, double, int, int, int, int);
 };

@@ -50,6 +50,10 @@ void WoxEngine::Window::processEvents() {
 	}
 }
 
+void WoxEngine::Window::quit() {
+	quitRequested = true;
+}
+
 bool WoxEngine::Window::shouldQuit() {
 	return quitRequested;
 }
@@ -108,19 +112,22 @@ void WoxEngine::Window::fillRectangle(int x, int y, int w, int h) {
 	SDL_RenderFillRect(rend, &rect);
 }
 
+void WoxEngine::Window::renderScale(float factor) {
+	SDL_RenderSetScale(rend, factor, factor);
+}
+
 WoxEngine::Image* WoxEngine::Window::loadImage(const char* path) {
-	SDL_Surface* tmp = SDL_LoadBMP(path);
-	if(tmp == NULL) {
+	SDL_Surface* surf = SDL_LoadBMP(path);
+	if(surf == NULL) {
 		fprintf(stderr, "SDL_LoadBMP failed: %s\n", SDL_GetError());
 		exit(EXIT_FAILURE);
 	}
-	SDL_Texture* tex = SDL_CreateTextureFromSurface(rend, tmp);
+	SDL_Texture* tex = SDL_CreateTextureFromSurface(rend, surf);
 	if(tex == NULL) {
 		fprintf(stderr, "SDL_CreateTextureFromSurface failed: %s\n", SDL_GetError());
 		exit(EXIT_FAILURE);
 	}
-	SDL_FreeSurface(tmp);
-	return new WoxEngine::Image(tex);
+	return new WoxEngine::Image(tex, surf);
 }
 
 void WoxEngine::Window::drawImage(WoxEngine::Image* img, int x, int y) {
@@ -143,4 +150,21 @@ void WoxEngine::Window::drawImage(WoxEngine::Image* img, int x, int y, double ro
 	SDL_Rect src = {cropX, cropY, cropW, cropH};
 	SDL_Rect dst = {x, y, cropW, cropH};
 	SDL_RenderCopyEx(rend, img->tex, &src, &dst, rot, NULL, SDL_FLIP_NONE);
+}
+
+// text
+
+int WoxEngine::Window::drawText(WoxEngine::Font* font, char* text, int x, int y) {
+	int currentX = x;
+	int textIndex = 0;
+	SDL_Rect r;
+	while(*(text + textIndex)) {
+		if((r = font->getRenderRect(*(text + textIndex))).x != -1) {
+			// fprintf(stdout, "{%d, %d, %d, %d}\n", r.x, r.y, r.w, r.h);
+			drawImage(font->charmap, currentX, y, 0, r.x, r.y, r.w, r.h);
+			currentX += r.w;
+		}
+		textIndex++;
+	}
+	return currentX;
 }

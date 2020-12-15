@@ -7,7 +7,10 @@ namespace WoxEngine {
 class WoxEngine::Image {
 	public:
 		SDL_Texture* tex;
+		SDL_Surface* surf;
 		int width, height;
-		Image(SDL_Texture*);
+		Image(SDL_Texture*, SDL_Surface*);
 		~Image();
+		Uint32 getPixel(int, int);
+		void setPixel(int, int, Uint32);
 };

@@ -9,6 +9,7 @@ class WoxEngine::State {
 	public:
 		WoxEngine::Window* win;
 		State(WoxEngine::Window*);
+		virtual ~State() = 0;
 		virtual void update(float) = 0;
 		virtual void draw() = 0;
 		virtual void keyPressed(char) = 0;

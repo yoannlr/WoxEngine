@@ -2,10 +2,16 @@
 
 #ifndef incl_state
 #include "state.hpp"
-#define incl_state 1
+#define incl_state
 #endif
-#include "input.hpp"
+
+#ifndef incl_image
 #include "image.hpp"
+#define incl_image
+#endif
+
+#include "input.hpp"
+#include "font.hpp"
 
 namespace WoxEngine {
 	class Window;
@@ -29,6 +35,7 @@ class WoxEngine::Window {
 		~Window();
 		void redraw();
 		void processEvents();
+		void quit();
 		bool shouldQuit();
 		void resize(float);
 		void screenshot();
@@ -46,6 +53,7 @@ class WoxEngine::Window {
 		void setColor(Uint8, Uint8, Uint8);
 		void setColor(Uint8, Uint8, Uint8, Uint8);
 		void fillRectangle(int, int, int, int);
+		void renderScale(float);
 
 		// images
 		WoxEngine::Image* loadImage(const char*);
@@ -53,4 +61,7 @@ class WoxEngine::Window {
 		void drawImage(WoxEngine::Image*, int, int, int, int, int, int);
 		void drawImage(WoxEngine::Image*, int, int, double);
 		void drawImage(WoxEngine::Image*, int, int, double, int, int, int, int);
+
+		// text
+		int drawText(WoxEngine::Font*, char*, int, int);
 };

@@ -1,13 +1,17 @@
 all: main
 run: main
 	./wox
-main: main.cpp window.o
+main: main.cpp world
 	g++ -Wall -lSDL2 -o wox *.o main.cpp
-window.o: state.o image.o window.hpp window.cpp input.hpp input.cpp
-	g++ -Wall -c window.cpp input.cpp
-image.o: image.hpp image.cpp
-	g++ -Wall -c image.cpp
-state.o: state.hpp state.cpp
-	g++ -Wall -c state.cpp
+world: engine woxworld/world.hpp woxworld/world.cpp woxworld/tile.hpp woxworld/tile.cpp
+	g++ -Wall -c woxworld/world.cpp woxworld/tile.cpp
+engine: state.o font.o woxengine/window.hpp woxengine/window.cpp woxengine/input.hpp woxengine/input.cpp
+	g++ -Wall -c woxengine/window.cpp woxengine/input.cpp
+font.o: image.o woxengine/font.cpp woxengine/font.hpp
+	g++ -Wall -c woxengine/font.cpp
+image.o: woxengine/image.hpp woxengine/image.cpp
+	g++ -Wall -c woxengine/image.cpp
+state.o: woxengine/state.hpp woxengine/state.cpp
+	g++ -Wall -c woxengine/state.cpp
 clean:
 	rm *.o wox

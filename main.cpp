@@ -1,10 +1,13 @@
 #include <iostream>
 #include "woxworld/world.hpp"
+#include "woxengine/animatedtext.cpp"
 
 class StateExample : public WoxEngine::State {
 	WoxEngine::Image* test;
 	WoxEngine::Image* fontImg;
 	WoxEngine::Font* font;
+	WoxEngine::AnimatedText* someDialog;
+	float angle = 0.0;
 	public:
 		StateExample(WoxEngine::Window* _win) : WoxEngine::State(_win) {
 			test = win->loadImage("tree.bmp");
@@ -12,7 +15,8 @@ class StateExample : public WoxEngine::State {
 			// printf("%x\n", col);
 			// test->setPixel(0, 0, 0xFFFF0000);
 			fontImg = win->loadImage("font.bmp");
-			font = new WoxEngine::Font(fontImg, (char*) "abcdef", 0xFF000000);
+			font = new WoxEngine::Font(fontImg, (char*) "abcdefghijklmnopqrstuvwxyz .", 0xFF000000);
+			someDialog = new WoxEngine::AnimatedText((char*) "bonjour\\.\\.\\.", 0.25);
 		}
 		~StateExample() {
 			std::cout << "StateExample destructor" << std::endl;
@@ -22,14 +26,18 @@ class StateExample : public WoxEngine::State {
 		}
 		void update(float dt) {
 			// std::cout << "update with dt=" << dt << std::endl;
+			angle++;
+			if(angle > 360.0) angle = 0.0;
+			if(someDialog->update(dt)) someDialog->reset();
 			if(win->input.isKeyDown('a')) std::cout << "a" << std::endl;
 		}
 		void draw() {
 			win->setColor(255, 0, 0);
 			// win->fillRectangle(100, 50, 100, 150);
 			win->drawImage(test, 200, 100);
-			win->drawImage(test, 400, 200, 45.0, 24, 24, 24, 24);
-			win->fillRectangle(win->drawText(font, (char*) "abcdefge\nblep", 10, 10, 0), 10, 5, 5);
+			win->drawImage(test, 400, 200, angle, 24, 24, 24, 24);
+			win->fillRectangle(win->drawText(font, (char*) "abcdefge\nblep wow.", 10, 10, 1), 10, 5, 5);
+			win->drawText(font, someDialog->current, 10, 300, 1);
 		}
 		void keyPressed(char c) {
 			std::cout << "keyPressed=" << c << std::endl;

@@ -1,7 +1,7 @@
 #include "font.hpp"
 #include <cstring>
 
-#include "../util.cpp"
+// #include "../util.cpp"
 
 WoxEngine::Font::Font(WoxEngine::Image* _charmap, char* _chars, Uint32 separator) {
 	charmap = _charmap;
@@ -26,8 +26,8 @@ WoxEngine::Font::Font(WoxEngine::Image* _charmap, char* _chars, Uint32 separator
 
 	imgpos[charindex] = charmap->width;
 
-	printMap(charpos);
-	printVector(imgpos);
+	// printMap(charpos);
+	// printVector(imgpos);
 }
 
 WoxEngine::Font::~Font() {

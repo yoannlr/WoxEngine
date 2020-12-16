@@ -1,8 +1,10 @@
 all: main
 run: main
 	./wox
-main: main.cpp world
+main: main.cpp world animtext
 	g++ -Wall -lSDL2 -o wox *.o main.cpp
+animtext: woxengine/animation.hpp woxengine/animatedtext.cpp
+	g++ -c woxengine/animatedtext.cpp
 world: engine woxworld/world.hpp woxworld/world.cpp woxworld/tile.hpp woxworld/tile.cpp
 	g++ -Wall -c woxworld/world.cpp woxworld/tile.cpp
 engine: state.o font.o woxengine/window.hpp woxengine/window.cpp woxengine/input.hpp woxengine/input.cpp

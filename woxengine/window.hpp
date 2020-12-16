@@ -61,7 +61,8 @@ class WoxEngine::Window {
 		void drawImage(WoxEngine::Image*, int, int, int, int, int, int);
 		void drawImage(WoxEngine::Image*, int, int, double);
 		void drawImage(WoxEngine::Image*, int, int, double, int, int, int, int);
+		void drawImage(WoxEngine::Image*, int, int, double, SDL_Rect*);
 
 		// text
-		int drawText(WoxEngine::Font*, char*, int, int);
+		int drawText(WoxEngine::Font*, char*, int, int, int);
 };

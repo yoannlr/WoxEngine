@@ -2,3 +2,4 @@ wox
 protos
 *.o
 art/
+*.code-workspace

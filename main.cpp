@@ -29,7 +29,7 @@ class StateExample : public WoxEngine::State {
 			// win->fillRectangle(100, 50, 100, 150);
 			win->drawImage(test, 200, 100);
 			win->drawImage(test, 400, 200, 45.0, 24, 24, 24, 24);
-			win->fillRectangle(win->drawText(font, (char*) "abcdefge", 10, 10), 10, 5, 5);
+			win->fillRectangle(win->drawText(font, (char*) "abcdefge\nblep", 10, 10, 0), 10, 5, 5);
 		}
 		void keyPressed(char c) {
 			std::cout << "keyPressed=" << c << std::endl;

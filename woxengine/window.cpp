@@ -152,19 +152,29 @@ void WoxEngine::Window::drawImage(WoxEngine::Image* img, int x, int y, double ro
 	SDL_RenderCopyEx(rend, img->tex, &src, &dst, rot, NULL, SDL_FLIP_NONE);
 }
 
+void WoxEngine::Window::drawImage(WoxEngine::Image* img, int x, int y, double rot, SDL_Rect* crop) {
+	SDL_Rect dst = {x, y, crop->w, crop->h};
+	SDL_RenderCopyEx(rend, img->tex, crop, &dst, rot, NULL, SDL_FLIP_NONE);
+}
+
 // text
 
-int WoxEngine::Window::drawText(WoxEngine::Font* font, char* text, int x, int y) {
+int WoxEngine::Window::drawText(WoxEngine::Font* font, char* text, int x, int y, int lineHeight = 0) {
+	int maxX = x;
 	int currentX = x;
+	int currentY = y;
 	int textIndex = 0;
 	SDL_Rect r;
 	while(*(text + textIndex)) {
-		if((r = font->getRenderRect(*(text + textIndex))).x != -1) {
-			// fprintf(stdout, "{%d, %d, %d, %d}\n", r.x, r.y, r.w, r.h);
-			drawImage(font->charmap, currentX, y, 0, r.x, r.y, r.w, r.h);
+		if(*(text + textIndex) == '\n') {
+			if(currentX > maxX) maxX = currentX;
+			currentX = x;
+			currentY += font->charmap->height + lineHeight;
+		} else if((r = font->getRenderRect(*(text + textIndex))).x != -1) {
+			drawImage(font->charmap, currentX, currentY, 0, &r);
 			currentX += r.w;
 		}
 		textIndex++;
 	}
-	return currentX;
+	return maxX;
 }

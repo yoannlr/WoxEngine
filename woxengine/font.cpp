@@ -30,7 +30,9 @@ WoxEngine::Font::Font(WoxEngine::Image* _charmap, char* _chars, Uint32 separator
 	printVector(imgpos);
 }
 
-WoxEngine::Font::~Font() {}
+WoxEngine::Font::~Font() {
+	// Font : "Not my job to delete the image, you've loaded it elsewhere ! Nya ~"
+}
 
 SDL_Rect WoxEngine::Font::getRenderRect(char c) {
 	SDL_Rect r;

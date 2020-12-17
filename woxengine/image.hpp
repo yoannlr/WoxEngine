@@ -2,6 +2,7 @@
 
 namespace WoxEngine {
 	class Image;
+	typedef SDL_Rect Rectangle;
 }
 
 class WoxEngine::Image {

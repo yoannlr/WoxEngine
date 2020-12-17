@@ -1,12 +1,12 @@
 #include "animation.hpp"
 #include <cstring>
-#include <iostream>
 
 namespace WoxEngine {
 	class AnimatedText;
 }
 
 // This is only a test. It may not be included for future releases.
+// Usage - WoxEngine::Window::drawText(font, animText.current, x, y, lineHeight)
 
 class WoxEngine::AnimatedText : public WoxEngine::Animation {
 	public:
@@ -19,6 +19,9 @@ class WoxEngine::AnimatedText : public WoxEngine::Animation {
 			speed = _speed;
 			current = new char[strlen(source) + 1];
 			*current = 0;
+		}
+		~AnimatedText() {
+			delete[] current;
 		}
 		void setStep(int step) {
 			reset();

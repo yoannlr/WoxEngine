@@ -18,5 +18,5 @@ class WoxEngine::Font {
 		std::vector<int> imgpos;
 		Font(WoxEngine::Image*, char*, Uint32);
 		~Font();
-		SDL_Rect getRenderRect(char);
+		WoxEngine::Rectangle getRenderRect(char);
 };

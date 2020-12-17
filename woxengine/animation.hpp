@@ -4,6 +4,8 @@ namespace WoxEngine {
 
 class WoxEngine::Animation {
 	public:
+		Animation() {}
+		virtual ~Animation() {}
 		virtual void setStep(int) = 0;
 		virtual bool next() = 0;
 		virtual bool prev() = 0;

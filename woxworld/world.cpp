@@ -10,9 +10,7 @@ WoxWorld::World::~World() {
 
 void WoxWorld::World::update(float dt) {}
 
-void WoxWorld::World::render(WoxEngine::Window* w) {
-
-}
+void WoxWorld::World::render(WoxEngine::Window* w) {}
 
 bool WoxWorld::World::addTile(int x, int y, WoxWorld::Tile t) {
 	if(x < 0 || x > width || y < 0 || y > height) return false;

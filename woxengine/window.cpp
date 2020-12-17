@@ -152,9 +152,14 @@ void WoxEngine::Window::drawImage(WoxEngine::Image* img, int x, int y, double ro
 	SDL_RenderCopyEx(rend, img->tex, &src, &dst, rot, NULL, SDL_FLIP_NONE);
 }
 
-void WoxEngine::Window::drawImage(WoxEngine::Image* img, int x, int y, double rot, SDL_Rect* crop) {
+void WoxEngine::Window::drawImage(WoxEngine::Image* img, int x, int y, double rot, WoxEngine::Rectangle* crop) {
 	SDL_Rect dst = {x, y, crop->w, crop->h};
 	SDL_RenderCopyEx(rend, img->tex, crop, &dst, rot, NULL, SDL_FLIP_NONE);
+}
+
+void WoxEngine::Window::drawImage(WoxEngine::Image* img, int x, int y, double rot, WoxEngine::Rectangle crop) {
+	SDL_Rect dst = {x, y, crop.w, crop.h};
+	SDL_RenderCopyEx(rend, img->tex, &crop, &dst, rot, NULL, SDL_FLIP_NONE);
 }
 
 // text
@@ -164,15 +169,20 @@ int WoxEngine::Window::drawText(WoxEngine::Font* font, char* text, int x, int y,
 	int currentX = x;
 	int currentY = y;
 	int textIndex = 0;
-	SDL_Rect r;
+	SDL_Rect rect;
+
+	Uint8 r, g, b;
+	SDL_GetRenderDrawColor(rend, &r, &g, &b, nullptr);
+	SDL_SetTextureColorMod(font->charmap->tex, r, g, b);
+
 	while(*(text + textIndex)) {
 		if(*(text + textIndex) == '\n') {
 			if(currentX > maxX) maxX = currentX;
 			currentX = x;
 			currentY += font->charmap->height + lineHeight;
-		} else if((r = font->getRenderRect(*(text + textIndex))).x != -1) {
-			drawImage(font->charmap, currentX, currentY, 0, &r);
-			currentX += r.w;
+		} else if((rect = font->getRenderRect(*(text + textIndex))).x != -1) {
+			drawImage(font->charmap, currentX, currentY, 0, &rect);
+			currentX += rect.w;
 		}
 		textIndex++;
 	}

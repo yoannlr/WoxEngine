@@ -34,7 +34,7 @@ WoxEngine::Font::~Font() {
 	// Font : "Not my job to delete the image, you've loaded it elsewhere ! Nya ~"
 }
 
-SDL_Rect WoxEngine::Font::getRenderRect(char c) {
+WoxEngine::Rectangle WoxEngine::Font::getRenderRect(char c) {
 	SDL_Rect r;
 	if(charpos.find(c) == charpos.end()) {
 		r = {-1, 0, 0, 0};

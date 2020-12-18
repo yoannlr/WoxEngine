@@ -1,15 +1,10 @@
+#ifndef window_h
+#define window_h
+
 #include <SDL2/SDL.h>
 
-#ifndef incl_state
 #include "state.hpp"
-#define incl_state
-#endif
-
-#ifndef incl_image
 #include "image.hpp"
-#define incl_image
-#endif
-
 #include "input.hpp"
 #include "font.hpp"
 
@@ -67,3 +62,5 @@ class WoxEngine::Window {
 		// text
 		int drawText(WoxEngine::Font*, char*, int, int, int);
 };
+
+#endif

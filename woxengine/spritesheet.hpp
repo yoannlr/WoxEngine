@@ -1,6 +1,6 @@
-#ifndef incl_image
+#ifndef image_h
 #include "image.hpp"
-#define incl_image
+#define image_h
 #endif
 
 namespace WoxEngine {

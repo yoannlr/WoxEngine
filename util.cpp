@@ -14,5 +14,5 @@ void printVector(std::vector<T> const &v) {
     for (auto it = v.cbegin(); it != v.cend(); it++) {
         std::cout << *it << ' ';
     }
-	std::cout << "\n";
+    std::cout << "\n";
 }

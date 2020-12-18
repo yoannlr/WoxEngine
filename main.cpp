@@ -1,5 +1,6 @@
 #include <iostream>
-#include "woxworld/world.hpp"
+
+#include "woxengine/window.hpp"
 #include "woxengine/animatedtext.cpp"
 #include "woxengine/spritesheet.hpp"
 
@@ -10,18 +11,21 @@ class StateExample : public WoxEngine::State {
 	WoxEngine::Spritesheet* sprites;
 	WoxEngine::Font* font;
 	WoxEngine::AnimatedText* someDialog;
+	char testText[90];
 	float angle = 0.0;
 	public:
 		StateExample(WoxEngine::Window* _win) : WoxEngine::State(_win) {
+			sprintf(testText, "%s\n%s", WoxEngine::FONT_UPPER, WoxEngine::FONT_LOWER);
 			test = win->loadImage("tree.bmp");
 			// Uint32 col = test->getPixel(0, 0);
 			// printf("%x\n", col);
 			// test->setPixel(0, 0, 0xFFFF0000);
 			fontImg = win->loadImage("font.bmp");
-			font = new WoxEngine::Font(fontImg, (char*) "abcdefghijklmnopqrstuvwxyz .", 0xFF000000);
+			font = new WoxEngine::Font(fontImg, WoxEngine::FONT_FULL, 0xFF000000);
 			someDialog = new WoxEngine::AnimatedText((char*) "bonjour\\.\\.\\.", 0.25);
 			spritesImg = win->loadImage("tileset.bmp");
 			sprites = new WoxEngine::Spritesheet(spritesImg, 24, 24);
+			win->resize(2.0);
 		}
 		~StateExample() {
 			std::cout << "StateExample destructor" << std::endl;
@@ -46,6 +50,7 @@ class StateExample : public WoxEngine::State {
 			win->drawImage(test, 400, 200, angle, 24, 24, 24, 24);
 			win->fillRectangle(win->drawText(font, (char*) "abcdefge\nblep wow.", 10, 10, 1), 10, 5, 5);
 			win->setColor(255, 255, 255);
+			win->drawText(font, testText, 10, 50, 1);
 			win->drawText(font, someDialog->current, 10, 300, 1);
 			win->drawImage(sprites->spritesheet, 110, 60, 0, sprites->getSprite(2));
 		}

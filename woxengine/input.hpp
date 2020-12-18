@@ -1,10 +1,10 @@
+#ifndef input_h
+#define input_h
+
 #include <SDL2/SDL.h>
 #include <map>
 
-#ifndef incl_state
 #include "state.hpp"
-#define incl_state 1
-#endif
 
 namespace WoxEngine {
 	class State;
@@ -29,3 +29,5 @@ class WoxEngine::Input {
 		int getMouseX();
 		int getMouseY();
 };
+
+#endif

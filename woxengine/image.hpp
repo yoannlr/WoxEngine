@@ -1,3 +1,6 @@
+#ifndef image_h
+#define image_h
+
 #include <SDL2/SDL.h>
 
 namespace WoxEngine {
@@ -15,3 +18,5 @@ class WoxEngine::Image {
 		Uint32 getPixel(int, int);
 		void setPixel(int, int, Uint32);
 };
+
+#endif

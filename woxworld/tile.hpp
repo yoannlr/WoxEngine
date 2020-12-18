@@ -4,9 +4,9 @@ namespace WoxWorld {
 
 class WoxWorld::Tile {
 	public:
-		bool solid;
-		Tile();
-		Tile(bool);
+		Uint16 tile;
+		Uint8 variant;
+		Tile(int, int);
 		~Tile();
 };
 

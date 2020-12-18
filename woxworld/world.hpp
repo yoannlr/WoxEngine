@@ -1,4 +1,8 @@
+#ifndef window_h
 #include "../woxengine/window.hpp"
+#define window_h
+#endif
+
 #include "tile.hpp"
 
 #include <vector>

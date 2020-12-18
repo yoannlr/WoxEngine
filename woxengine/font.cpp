@@ -3,6 +3,12 @@
 
 // #include "../util.cpp"
 
+char* WoxEngine::FONT_UPPER = (char*) "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+char* WoxEngine::FONT_LOWER = (char*) "abcdefghijklmnopqrstuvwxyz";
+char* WoxEngine::FONT_NUMBERS = (char*) "0123456789";
+char* WoxEngine::FONT_SYMBOLS = (char*) "'.?!:/,;<>&~#{}()[]-|_@+=%*";
+char* WoxEngine::FONT_FULL = (char*) "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'.?!:/,;<>&~#{}()[]-|_@+=%*";
+
 WoxEngine::Font::Font(WoxEngine::Image* _charmap, char* _chars, Uint32 separator) {
 	charmap = _charmap;
 	chars = _chars;
@@ -18,7 +24,7 @@ WoxEngine::Font::Font(WoxEngine::Image* _charmap, char* _chars, Uint32 separator
 				charindex++;
 				charmap->setPixel(x, 0, 0x00000000);
 			} else {
-				fprintf(stderr, "WoxEngine::Font::Font - Font contains more characters than specified");
+				fprintf(stderr, "WoxEngine::Font::Font - Font contains more characters than specified\n");
 				break;
 			}
 		}

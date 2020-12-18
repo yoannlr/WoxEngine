@@ -1,3 +1,6 @@
+#ifndef state_h
+#define state_h
+
 #include <SDL2/SDL.h>
 
 namespace WoxEngine {
@@ -17,3 +20,5 @@ class WoxEngine::State {
 		virtual void mouseClicked(Uint8) = 0;
 		virtual void mouseReleased(Uint8) = 0;
 };
+
+#endif

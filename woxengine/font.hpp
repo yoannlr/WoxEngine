@@ -1,13 +1,18 @@
-#ifndef incl_image
+#ifndef font_h
+#define font_h
+
 #include "image.hpp"
-#define incl_image
-#endif
 
 #include <map>
 #include <vector>
 
 namespace WoxEngine {
 	class Font;
+	extern char* FONT_UPPER;
+	extern char* FONT_LOWER;
+	extern char* FONT_NUMBERS;
+	extern char* FONT_SYMBOLS;
+	extern char* FONT_FULL;
 }
 
 class WoxEngine::Font {
@@ -20,3 +25,5 @@ class WoxEngine::Font {
 		~Font();
 		WoxEngine::Rectangle getRenderRect(char);
 };
+
+#endif

@@ -1,0 +1,4 @@
+You are free to use my code (https://github.com/yoannlr/WoxEngine).
+BUT If you do, make sure to credit me.
+If you intend to use the code for commercial purposes, you MUST contact me first.
+This code is provided "as it is" with no guarantee.
